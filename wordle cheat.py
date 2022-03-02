@@ -40,27 +40,52 @@ provide extra info.
 -at one point is positioning more important then length of list if there ever is
 
 orignal list with all words in database----chopped down list after first word----find the next longest list------
-get results-------chop down the list even more--------till all 6 guesses are done.'''
+get results-------chop down the list even more--------till all 6 guesses are done.
+
+tune ups
+1. add a break measure when they guess the right word that breaks all the loops.
+2. check if there is a more effective way to map the stuff
+3. its definetly faster if i ask the responses for the words all at once. so have 5 input for asking the wordle response
+for all five letters in the word.
+I can think group it by the letters with a for loop. then i can do the same coding but instead of searching for one letter
+at a time i can just do multiple. so if letters 1 and 3 were correct i could do if f[0]!=f[0] and f[2]!=f[2] apend etc
+the issue is thinking about how to filter it out before i should think about using what method list, dictionary, and the
+the uses of map instead of 4 loop as said before
+4. also should have an ending message if i can't get it right or something'''
 
 
-x=0
 word_list=["apple", "bbbbb","raise","fried","apleb", "dasga", "helas" ]
 dictionary={}
-for words in word_list:
-    dictionary[words]=set(words)
-
-
-list=[0,0]
-while x<(len(word_list)):
+result=list(map(lambda x: set(x), word_list))
+for x in range(0,len(word_list)-1):
     y=0
-    for word in word_list:
-        if set(word) & set(word_list[x]):
-            y=y+1
-        print((word_list[x]))
-        print(y)
-    if y>list[1]:
-        list[1]=y
-        list[0]=word_list[x]
-    #maybe i append a entry if its the same amount of numbers
-    x+=1
-print(list)
+    for word in result:
+        if result[x]&word:
+            y+=1
+    dictionary[word_list[x]]=y
+print(max(dictionary, key=dictionary.get))
+optimal_word=max(dictionary, key=dictionary.get)
+for t in range (1,7):
+    for v in range(0,5):
+        deleted_list = []
+        wordle_response=input("Guess number "+str(t)+" and letter number "+str(v+1)+" response: \na. Wrong letter \nb. Right letter and placement \nc. Right letter wrong placement \nd. Entire Word Correct \n" )
+        if wordle_response=="d":
+            print("your welcome")
+            #break
+        elif wordle_response=="a":
+            for entry in dictionary:
+                if optimal_word[v] in entry:
+                    deleted_list.append(entry)
+        elif wordle_response=="b":
+            for entry in dictionary:
+                if optimal_word[v] != entry[v]:
+                    deleted_list.append(entry)
+        elif wordle_response=="c":
+            for entry in dictionary:
+                if optimal_word[v] == entry[v]:
+                    deleted_list.append(entry)
+                if optimal_word[v] not in entry:
+                    deleted_list.append(entry)
+        for deletes in deleted_list:
+            dictionary.pop(deletes)
+    print(max(dictionary, key=dictionary.get))
