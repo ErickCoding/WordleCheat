@@ -63,29 +63,47 @@ for x in range(0,len(word_list)-1):
         if result[x]&word:
             y+=1
     dictionary[word_list[x]]=y
-print(max(dictionary, key=dictionary.get))
-optimal_word=max(dictionary, key=dictionary.get)
-for t in range (1,7):
-    for v in range(0,5):
-        deleted_list = []
-        wordle_response=input("Guess number "+str(t)+" and letter number "+str(v+1)+" response: \na. Wrong letter \nb. Right letter and placement \nc. Right letter wrong placement \nd. Entire Word Correct \n" )
-        if wordle_response=="d":
-            print("your welcome")
-            #break
-        elif wordle_response=="a":
-            for entry in dictionary:
-                if optimal_word[v] in entry:
-                    deleted_list.append(entry)
-        elif wordle_response=="b":
-            for entry in dictionary:
-                if optimal_word[v] != entry[v]:
-                    deleted_list.append(entry)
-        elif wordle_response=="c":
-            for entry in dictionary:
-                if optimal_word[v] == entry[v]:
-                    deleted_list.append(entry)
-                if optimal_word[v] not in entry:
-                    deleted_list.append(entry)
-        for deletes in deleted_list:
-            dictionary.pop(deletes)
-    print(max(dictionary, key=dictionary.get))
+g=0
+while g<=6:
+    optimal_word = max(dictionary, key=dictionary.get)
+    print(optimal_word)
+    deleted_list=[]
+    correct_letters_list=[]
+    wrong_position_list=[]
+    if g==6:
+        print("looks like it didnt work")
+        break
+    print("guess number " + str(g + 1))
+    right_guess=input("Enter Y or N, was the word guess correct?: Y or N \n")
+    if right_guess.upper()=="Y":
+        print("your welcome")
+        break
+    wrong_letters=input("type out which letters were completely wrong without any spaces:")
+    while True:
+        correct_position =input("select which letter was completely correct: \n 1) 1st letter \n 2) 2nd letter \n 3) 3rd letter \n 4) 4th letter \n 5) 5th letter \n 6) none \n")
+        if int(correct_position)<6:
+            correct_letters_list.append(int(correct_position)-1)
+        else:
+            break
+    while True:
+        wrong_position=input("select which letter is in the word but in the wrong position: \n 1) 1st letter \n 2) 2nd letter \n 3) 3rd letter \n 4) 4th letter \n 5) 5th letter \n 6) none \n")
+        if int(wrong_position)<6:
+            wrong_position_list.append(int(wrong_position)-1)
+        else:
+            break
+    for entry in dictionary:
+        if set(wrong_letters)&set(entry):
+            deleted_list.append(entry)
+        for ind in correct_letters_list:
+            if optimal_word[ind] != entry[ind]:
+                deleted_list.append(entry)
+        for index in wrong_position_list:
+            if optimal_word[index]== entry[index]:
+                deleted_list.append(entry)
+            if optimal_word[index] not in (entry[:index]+entry[index+1:]):
+                deleted_list.append(entry)
+    single_del_list=set(deleted_list)
+    for deletes in single_del_list:
+        dictionary.pop(deletes)
+    print(dictionary)
+    g+=1
