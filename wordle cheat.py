@@ -70,10 +70,10 @@ while g<=6:
     deleted_list=[]
     correct_letters_list=[]
     wrong_position_list=[]
-    if g==6:
+    if g==7:
         print("looks like it didnt work")
         break
-    print("guess number " + str(g + 1))
+    print("guess number " + str(g))
     right_guess=input("Enter Y or N, was the word guess correct?: Y or N \n")
     if right_guess.upper()=="Y":
         print("your welcome")
