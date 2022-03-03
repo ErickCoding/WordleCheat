@@ -57,7 +57,7 @@ the uses of map instead of 4 loop as said before
 word_list=["apple", "bbbbb","raise","fried","apleb", "dasga", "helas" ]
 dictionary={}
 result=list(map(lambda x: set(x), word_list))
-for x in range(0,len(word_list)-1):
+for x in range(0,len(word_list)):
     y=0
     for word in result:
         if result[x]&word:
