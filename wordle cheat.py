@@ -107,3 +107,22 @@ while g<=6:
         dictionary.pop(deletes)
     print(dictionary)
     g+=1
+    
+ #-----------------------------------------wordle clone------------------------------------------------------------------  
+ #1. same premise as the wordle cheat have to set a master wordlist which can be used for the cheat and the clone.
+# 2. search up a randomizer to pick out a random word.
+# if it was the actual game i would have to ask for an input from a user but if im interweaving both i can just have the
+#wordle cheat find the most strategic word input that word and have all the interactions be computer base the only thing
+# would be to find the wordlist
+#3. wordle works on 4 types of checking
+#1st check if input is a legit word in their list if while false: input in wordlist: true else false and ocntinue down
+#we can skip this step as out code will be using hte same wodlist
+import random
+
+wordlist=["apple", "bbbbb","raise","fried","apleb", "dasga", "helas" ]
+word_of_day=(random.choice(wordlist).lower())
+print(word_of_day)
+guess=list(input("type a 5 letter word: \n"))
+wrong_letters=list(map(lambda x:x if x not in word_of_day else None,guess))
+print(wrong_letters)
+    
